@@ -15,7 +15,7 @@ const Login = () => {
             const userData = { email }
             login(userData)
             localStorage.setItem('user', JSON.stringify(userData))
-            navigate('/')
+            navigate('/home')
         } else {
             alert('Incorrect data')
         }
