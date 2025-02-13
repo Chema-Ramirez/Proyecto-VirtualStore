@@ -52,8 +52,9 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const login = (userData) => {
-        localStorage.setItem("user", JSON.stringify(userData));
-        dispatch({ type: AUTH_ACTIONS.LOGIN, payload: userData });
+        localStorage.setItem("user", JSON.stringify(userData))
+        localStorage.setItem("token", userData.token)
+        dispatch({ type: AUTH_ACTIONS.LOGIN, payload: userData })
     }
 
     const logout = () => {

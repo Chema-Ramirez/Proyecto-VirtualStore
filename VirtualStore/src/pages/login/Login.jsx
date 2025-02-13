@@ -1,24 +1,43 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../../context/AuthContext";
+import { useState, useContext } from "react"
+import { useNavigate } from "react-router-dom"
+import AuthContext from "../../context/AuthContext"
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
     const { login } = useContext(AuthContext)
     const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (email === 'test@test.com' && password === '1234') {
-            const userData = { email }
-            login(userData)
-            localStorage.setItem('user', JSON.stringify(userData))
-            navigate('/home')
-        } else {
-            alert('Incorrect data')
+        try {
+            const response = await fetch('http://localhost:3005/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                login(data)
+                localStorage.setItem('user', JSON.stringify(data))
+                localStorage.setItem('token', data.token)
+                navigate('/home')
+            } else {
+                setError(data.message || 'Invalid credentials')
+            }
+        } catch (error) {
+            setError('Error connecting to server')
         }
+    };
+
+    const handleRegister = () => {
+        navigate('/register')
     }
 
     return (
@@ -45,8 +64,13 @@ const Login = () => {
                         required
                     />
                 </div>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
                 <button type="submit">Login</button>
             </form>
+
+            <div>
+                <button onClick={handleRegister}>Register New Account</button>
+            </div>
         </div>
     )
 }

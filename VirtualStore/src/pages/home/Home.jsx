@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Cart from '../../components/cart/Cart'
 import Header from '../../components/layout/Header'
 import { db } from '../../data/db'
@@ -7,7 +8,14 @@ import { useCart } from '../../context/CartContext'
 const Home = () => {
     const { cart, setCart, addToCart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart } = useCart();
     const [data] = useState(db)
+    const navigate = useNavigate()
 
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.token) {
+            navigate('/login');
+        }
+    }, [navigate])
 
     useEffect(() => {
         const storedCart = localStorage.getItem('cart')
@@ -15,7 +23,6 @@ const Home = () => {
             setCart(JSON.parse(storedCart))
         }
     }, [setCart])
-
 
     useEffect(() => {
         if (cart.length > 0) {
