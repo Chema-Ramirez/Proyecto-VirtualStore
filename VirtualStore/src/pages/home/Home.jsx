@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Cart from '../../components/cart/Cart'
 import Header from '../../components/layout/Header'
-import { db } from '../../data/db'
 import { useCart } from '../../context/CartContext'
 import { useAuth } from '../../context/AuthContext'
+import Products from '../products/Products'
 
 const Home = () => {
     const { cart, setCart, addToCart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart } = useCart()
     const { authState, logout } = useAuth()
-    const [data] = useState(db)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
+
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'))
@@ -32,7 +31,7 @@ const Home = () => {
 
     useEffect(() => {
         if (cart.length > 0) {
-            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('cart', JSON.stringify(cart))
         }
     }, [cart])
 
@@ -48,8 +47,8 @@ const Home = () => {
     }
 
     const goToOrderDetails = () => {
-        navigate("/order-details");
-    };
+        navigate("/order-details")
+    }
 
     return (
         <>
@@ -68,7 +67,6 @@ const Home = () => {
             </div>
 
             <main className="container-xl mt-5">
-
                 <div className="text-center mt-3">
                     <p>Welcome, {name}!</p>
                 </div>
@@ -81,16 +79,10 @@ const Home = () => {
                     </button>
                 </div>
 
-                <div className="row mt-5">
-                    {data.map((product) => (
-                        <Cart
-                            key={product.id}
-                            product={product}
-                            addToCart={addToCart}
-                            cart={cart}
-                        />
-                    ))}
-                </div>
+                <Products
+                    addToCart={addToCart}
+                    cart={cart}
+                />
             </main>
 
             <footer className="bg-dark mt-5 py-5">

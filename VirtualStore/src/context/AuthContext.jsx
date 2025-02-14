@@ -1,6 +1,5 @@
-// AuthContext.jsx
-import { createContext, useContext, useReducer, useEffect } from "react";
-import PropTypes from "prop-types";
+import { createContext, useContext, useReducer, useEffect } from "react"
+import PropTypes from "prop-types"
 
 const AUTH_ACTIONS = {
     LOGIN: "LOGIN",
@@ -31,35 +30,35 @@ const authReducer = (state, action) => {
     }
 };
 
-const AuthContext = createContext();
+const AuthContext = createContext()
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext)
 
 export const useIsAuthenticated = () => {
-    const { authState } = useAuth();
-    return authState.isAuthenticated;
+    const { authState } = useAuth()
+    return authState.isAuthenticated
 };
 
 export const AuthProvider = ({ children }) => {
-    const [{ isAuthenticated, user }, dispatch] = useReducer(authReducer, initialState);
+    const [{ isAuthenticated, user }, dispatch] = useReducer(authReducer, initialState)
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
+        const storedUser = localStorage.getItem("user")
         if (storedUser) {
-            dispatch({ type: AUTH_ACTIONS.LOGIN, payload: JSON.parse(storedUser) });
+            dispatch({ type: AUTH_ACTIONS.LOGIN, payload: JSON.parse(storedUser) })
         }
     }, []);
 
     const login = (userData) => {
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("token", userData.token);
-        dispatch({ type: AUTH_ACTIONS.LOGIN, payload: userData });
+        localStorage.setItem("user", JSON.stringify(userData))
+        localStorage.setItem("token", userData.token)
+        dispatch({ type: AUTH_ACTIONS.LOGIN, payload: userData })
     };
 
     const logout = () => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        dispatch({ type: AUTH_ACTIONS.LOGOUT });
+        localStorage.removeItem("user")
+        localStorage.removeItem("token")
+        dispatch({ type: AUTH_ACTIONS.LOGOUT })
     };
 
     return (
@@ -71,7 +70,7 @@ export const AuthProvider = ({ children }) => {
 
 AuthProvider.propTypes = {
     children: PropTypes.node.isRequired,
-};
+}
 
-export default AuthContext;
+export default AuthContext
 
