@@ -4,6 +4,7 @@ import Register from "./register/Register"
 import Home from "./home/Home"
 import Checkout from "./checkout/Checkout"
 import OrderSummary from "./order-summary/OrderSummary"
+import OrderDetails from "./order-details/OrderDetails"
 import ProtectedRoute from "../components/ProtectedRoute"
 
 export default function Pages() {
@@ -29,6 +30,12 @@ export default function Pages() {
                     <OrderSummary />
                 </ProtectedRoute>
             } />
+
+            <Route path="/order-details" element={
+                <ProtectedRoute>
+                    <OrderDetails />
+                </ProtectedRoute>
+            } />
         </Routes>
-    )
+    );
 }

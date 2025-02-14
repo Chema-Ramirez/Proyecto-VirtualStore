@@ -8,10 +8,20 @@ const OrderSummary = () => {
     const totalPrice = cart.reduce((acc, product) => acc + product.price * product.quantity, 0)
 
     const handleConfirmOrder = () => {
+        const orderDetails = {
+            products: cart,
+            totalPrice: totalPrice,
+            date: new Date().toLocaleString(),
+        }
+
+        localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
+
         clearCart();
         localStorage.removeItem('cart')
-        navigate("/home")
+
+        navigate("/order-details")
     }
+
 
     return (
         <div className="order-summary">
