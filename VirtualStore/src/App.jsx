@@ -1,14 +1,16 @@
-import { BrowserRouter as Router } from 'react-router-dom';
-import Pages from './pages';
-import './App.css';
+import { BrowserRouter as Router } from "react-router-dom"
+import { AuthProvider } from "./context/AuthContext"
+import Pages from "./pages"
+import './App.css'
 
 function App() {
   return (
-    <Router>
-      <Pages />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Pages />
+      </Router>
+    </AuthProvider>
   );
 }
-
 
 export default App;

@@ -3,17 +3,17 @@ import { useAuth } from "../context/AuthContext"
 import PropTypes from "prop-types"
 
 const ProtectedRoute = ({ children }) => {
-    const { state } = useAuth()
+    const { authState } = useAuth()
 
-    if (!state.isAuthenticated) {
+    if (!authState.isAuthenticated) {
         return <Navigate to="/" />
     }
 
     return children
-}
+};
 
 ProtectedRoute.propTypes = {
-    children: PropTypes.node.isRequired
-}
+    children: PropTypes.node.isRequired,
+};
 
-export default ProtectedRoute
+export default ProtectedRoute;

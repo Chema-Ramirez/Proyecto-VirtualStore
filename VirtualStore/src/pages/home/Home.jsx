@@ -6,14 +6,18 @@ import { db } from '../../data/db'
 import { useCart } from '../../context/CartContext'
 
 const Home = () => {
-    const { cart, setCart, addToCart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart } = useCart();
+    const { cart, setCart, addToCart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart } = useCart()
     const [data] = useState(db)
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
+
         if (!user || !user.token) {
-            navigate('/login');
+            navigate('/');
+        } else {
+            setLoading(false)
         }
     }, [navigate])
 
@@ -28,7 +32,11 @@ const Home = () => {
         if (cart.length > 0) {
             localStorage.setItem('cart', JSON.stringify(cart))
         }
-    }, [cart])
+    }, [cart]);
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <>

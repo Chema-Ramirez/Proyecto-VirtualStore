@@ -10,7 +10,7 @@ const Login = () => {
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         try {
             const response = await fetch('http://localhost:3005/auth/login', {
@@ -19,20 +19,18 @@ const Login = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
-            });
+            })
 
             const data = await response.json();
 
             if (response.ok) {
                 login(data)
-                localStorage.setItem('user', JSON.stringify(data))
-                localStorage.setItem('token', data.token)
                 navigate('/home')
             } else {
-                setError(data.message || 'Invalid credentials')
+                setError(data.message || 'Invalid credentials');
             }
         } catch (error) {
-            setError('Error connecting to server')
+            setError('Error connecting to server');
         }
     };
 
