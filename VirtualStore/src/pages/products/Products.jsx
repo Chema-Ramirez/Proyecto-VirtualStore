@@ -12,7 +12,7 @@ const Products = () => {
             try {
                 const response = await fetch('http://localhost:3005/api/products');
                 if (!response.ok) {
-                    throw new Error('Error al obtener los productos');
+                    throw new Error('Error getting products');
                 }
                 const data = await response.json();
                 setProducts(data);

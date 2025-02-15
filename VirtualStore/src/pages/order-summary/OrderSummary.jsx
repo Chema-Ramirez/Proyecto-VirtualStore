@@ -1,58 +1,50 @@
-import { useCart } from "../../context/CartContext"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const OrderSummary = () => {
-    const { cart, clearCart } = useCart()
+    const { orderId } = useParams();
+    const [order, setOrder] = useState(null);
     const navigate = useNavigate()
 
-    const totalPrice = cart.reduce((acc, product) => acc + product.price * product.quantity, 0)
+    useEffect(() => {
+        const fetchOrder = async () => {
+            try {
+                const response = await fetch(`http://localhost:3005/api/orders/${orderId}`)
+                const data = await response.json();
+                if (response.ok) {
+                    setOrder(data);
+                } else {
+                    alert(data.message || 'Failed to fetch order');
+                }
+            } catch (error) {
+                console.error('Error fetching order:', error)
+                alert('Error fetching order')
+            }
+        };
 
-    const handleConfirmOrder = () => {
-        const orderDetails = {
-            products: cart,
-            totalPrice: totalPrice,
-            date: new Date().toLocaleString(),
-        }
+        fetchOrder();
+    }, [orderId]);
 
-        localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
-
-        clearCart();
-        localStorage.removeItem('cart')
-
-        navigate("/order-details")
-    }
-
+    if (!order) return <p>Loading...</p>;
 
     return (
-        <div className="order-summary">
+        <div>
             <h2>Order Summary</h2>
-            {cart.length === 0 ? (
-                <p>No products in your cart</p>
-            ) : (
-                <div>
-                    <h3>Products</h3>
-                    <div>
-                        {cart.map((product) => (
-                            <div key={product.id} className="cart-item">
-                                <img
-                                    className="img-fluid"
-                                    src={`/img/${product.image}.jpg`}
-                                    alt="product image"
-                                    style={{ width: "75px", height: "75px", objectFit: "cover" }}
-                                />
-                                <p>{product.name}</p>
-                                <p>Quantity: {product.quantity}</p>
-                                <p>Price: {product.price}€</p>
-                            </div>
-                        ))}
-                        <h3>Total: {totalPrice}€</h3>
-                        <button onClick={handleConfirmOrder}>Confirm Order</button>
-                        <button onClick={() => navigate("/home")}>Back to the shop</button>
-                    </div>
-                </div>
-            )}
+            <p>Order ID: {order._id}</p>
+            <p>Total: {order.totalPrice}€</p>
+            <p>Status: {order.status}</p>
+            <h3>Products:</h3>
+            <ul>
+                {order.products.map((item) => (
+                    <li key={item.product._id}>
+                        {item.product.name} - {item.quantity} x {item.product.price}€
+                    </li>
+                ))}
+            </ul>
+            <button onClick={() => navigate('/home')}>Back to Home</button>
         </div>
-    )
-}
+    );
+};
 
-export default OrderSummary
+export default OrderSummary;

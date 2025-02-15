@@ -1,105 +1,145 @@
-import { useState } from "react"
-import { useCart } from "../../context/CartContext"
-import { useNavigate } from "react-router-dom"
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
+import { useCart } from '../../context/CartContext'
 
 const Checkout = () => {
-    const { cart } = useCart()
-    const [paymentInfo, setPaymentInfo] = useState({
-        cardNumber: "",
-        cardHolder: "",
-        expirationDate: "",
-        cvv: "",
-    })
-
+    const { authState } = useAuth()
+    const { cart, clearCart } = useCart()
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     const navigate = useNavigate()
+    const [paymentData, setPaymentData] = useState({
+        cardNumber: '',
+        expirationDate: '',
+        cvv: '',
+        cardHolder: ''
+    });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setPaymentInfo((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }))
-    }
+    const handlePayment = async () => {
+        if (!authState.user) {
+            setError('You must be logged in to complete the purchase');
+            return;
+        }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        navigate("/order-summary")
-    }
+        if (cart.length === 0) {
+            setError('Your cart is empty');
+            return;
+        }
+
+        const { cardNumber, expirationDate, cvv, cardHolder } = paymentData;
+        if (!cardNumber || !expirationDate || !cvv || !cardHolder) {
+            setError('Please fill in all payment details');
+            return;
+        }
+
+        const orderData = {
+            user: authState.user._id,
+            products: cart.map(item => ({
+                product: item._id,
+                quantity: item.quantity,
+            })),
+            totalPrice: cart.reduce((acc, item) => acc + (item.price * item.quantity), 0),
+        };
+
+        try {
+            setLoading(true);
+
+            const response = await fetch('http://localhost:3005/api/orders/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authState.token}`,
+                },
+                body: JSON.stringify(orderData),
+            });
+
+            const data = await response.json()
+
+            if (response.ok) {
+                alert('Order created successfully')
+                clearCart()
+                localStorage.removeItem('cart')
+                navigate(`/order-summary/${data._id}`)
+            } else {
+                setError(data.message || 'Failed to create order')
+            }
+        } catch (error) {
+            console.error('Error making payment:', error)
+            setError('Error processing payment')
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setPaymentData({
+            ...paymentData,
+            [name]: value
+        });
+    };
 
     return (
-        <div className="checkout-container">
-            <h2>Checkout</h2>
-            <h3>Products in your cart</h3>
+        <div>
+            <h1>Checkout</h1>
+            {error && <p>{error}</p>}
 
-            {cart.length > 0 ? (
-                <div>
-                    {cart.map((product) => (
-                        <div key={product.id} className="cart-item">
-                            <img
-                                className="img-fluid"
-                                src={`/img/${product.image}.jpg`}
-                                alt="product image"
-                                style={{ width: "75px", height: "75px", objectFit: "cover" }}
-                            />
-                            <p>{product.name}</p>
-                            <p>Quantity: {product.quantity}</p>
-                            <p>Price: {product.price}€</p>
-                        </div>
-                    ))}
-                    <h3>Payment information</h3>
-                    <form onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="cardNumber">Card number</label>
-                            <input
-                                type="text"
-                                id="cardNumber"
-                                name="cardNumber"
-                                value={paymentInfo.cardNumber}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="cardHolder">Cardholder</label>
-                            <input
-                                type="text"
-                                id="cardHolder"
-                                name="cardHolder"
-                                value={paymentInfo.cardHolder}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="expirationDate">Expiration date</label>
-                            <input
-                                type="month"
-                                id="expirationDate"
-                                name="expirationDate"
-                                value={paymentInfo.expirationDate}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="cvv">CVV</label>
-                            <input
-                                type="text"
-                                id="cvv"
-                                name="cvv"
-                                value={paymentInfo.cvv}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <button type="submit">Pay</button>
-                    </form>
-                </div>
-            ) : (
-                <p>No products in your cart</p>
-            )}
+            <div>
+                <h2>Enter your payment details</h2>
+                <form>
+                    <div>
+                        <label>Card Number</label>
+                        <input
+                            type="text"
+                            name="cardNumber"
+                            value={paymentData.cardNumber}
+                            onChange={handleInputChange}
+                            placeholder="1234 5678 9876 5432"
+                        />
+                    </div>
+
+                    <div>
+                        <label>Expiration Date</label>
+                        <input
+                            type="month"
+                            name="expirationDate"
+                            value={paymentData.expirationDate}
+                            onChange={handleInputChange}
+                            placeholder="MM/YY"
+                        />
+                    </div>
+
+                    <div>
+                        <label>CVV</label>
+                        <input
+                            type="text"
+                            name="cvv"
+                            value={paymentData.cvv}
+                            onChange={handleInputChange}
+                            placeholder="123"
+                        />
+                    </div>
+
+                    <div>
+                        <label>Card Holder Name</label>
+                        <input
+                            type="text"
+                            name="cardHolder"
+                            value={paymentData.cardHolder}
+                            onChange={handleInputChange}
+                            placeholder="Sr. Johnson"
+                        />
+                    </div>
+                </form>
+            </div>
+
+            <button onClick={handlePayment} disabled={loading}>
+                {loading ? 'Processing...' : 'Pay Now'}
+            </button>
+            <button onClick={() => navigate('/home')}>Back to Home</button>
         </div>
     )
 }
 
-export default Checkout
+export default Checkout;

@@ -10,7 +10,8 @@ const Home = () => {
     const { authState, logout } = useAuth()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
-
+    const [orders, setOrders] = useState([])
+    const [error, setError] = useState('')
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'))
@@ -35,6 +36,35 @@ const Home = () => {
         }
     }, [cart])
 
+    useEffect(() => {
+        if (authState.user) {
+            const fetchOrders = async () => {
+                try {
+                    const response = await fetch('http://localhost:3005/api/orders/', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authState.token}`,
+                        },
+                    })
+
+                    const data = await response.json()
+
+                    if (response.ok) {
+                        setOrders(data)
+                    } else {
+                        setError(data.message || 'Failed to fetch orders')
+                    }
+                } catch (error) {
+                    console.error('Error fetching orders:', error)
+                    setError('Error fetching orders')
+                }
+            }
+
+            fetchOrders()
+        }
+    }, [authState])
+
     if (loading) {
         return <div>Loading...</div>
     }
@@ -46,9 +76,9 @@ const Home = () => {
         navigate('/')
     }
 
-    const goToOrderDetails = () => {
-        navigate("/order-details")
-    }
+    const goToOrderDetails = (orderId) => {
+        navigate(`/order-details/${orderId}`);
+    };
 
     return (
         <>
@@ -74,15 +104,34 @@ const Home = () => {
                 <h2 className="text-center">Our collection</h2>
 
                 <div className="text-center mt-4">
-                    <button onClick={goToOrderDetails} className="btn btn-primary">
+                    <button onClick={() => navigate("/order-details/")} className="btn btn-primary">
                         View My Orders
                     </button>
                 </div>
 
-                <Products
-                    addToCart={addToCart}
-                    cart={cart}
-                />
+                <h3>Your Orders:</h3>
+                {error && <p>{error}</p>}
+                <ul>
+                    {orders.length > 0 ? (
+                        orders.map((order) => (
+                            <li key={order._id}>
+                                <button onClick={() => goToOrderDetails(order._id)} className="btn btn-link">
+                                    {order._id}
+                                </button>
+                                {' '} - Status: {order.status} - Total: {order.totalPrice}€
+                            </li>
+                        ))
+                    ) : (
+                        <p>No orders found.</p>
+                    )}
+                </ul>
+
+                <div className="mt-5">
+                    <Products
+                        addToCart={addToCart}
+                        cart={cart}
+                    />
+                </div>
             </main>
 
             <footer className="bg-dark mt-5 py-5">

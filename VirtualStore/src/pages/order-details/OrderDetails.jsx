@@ -1,45 +1,62 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 const OrderDetails = () => {
+    const { orderId } = useParams()
     const [order, setOrder] = useState(null)
-    const navigate = useNavigate()
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState('')
 
     useEffect(() => {
-        const savedOrder = localStorage.getItem("orderDetails")
-        if (savedOrder) {
-            setOrder(JSON.parse(savedOrder))
-        } else {
-            navigate("/home")
-        }
-    }, [navigate])
+        const fetchOrder = async () => {
+            try {
+                const response = await fetch(`http://localhost:3005/api/orders/${orderId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    setOrder(data)
+                } else {
+                    setError(data.message || 'Error fetching order details')
+                }
+            } catch (error) {
+                console.error('Error fetching order:', error)
+                setError('Error fetching order')
+            } finally {
+                setLoading(false)
+            }
+        };
+
+        fetchOrder();
+    }, [orderId])
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    if (error) {
+        return <div>{error}</div>
+    }
 
     return (
-        <div className="order-details">
-            {order ? (
-                <div>
-                    <h2>Your Order is Confirmed!</h2>
-                    <h3>Order Date: {order.date}</h3>
-                    <h3>Products:</h3>
-                    {order.products.map((product) => (
-                        <div key={product.id} className="cart-item">
-                            <img
-                                className="img-fluid"
-                                src={`/img/${product.image}.jpg`}
-                                alt="product image"
-                                style={{ width: "75px", height: "75px", objectFit: "cover" }}
-                            />
-                            <p>{product.name}</p>
-                            <p>Quantity: {product.quantity}</p>
-                            <p>Price: {product.price}€</p>
-                        </div>
-                    ))}
-                    <h3>Total: {order.totalPrice}€</h3>
-                    <button onClick={() => navigate("/home")}>Back to Shop</button>
-                </div>
-            ) : (
-                <p>Loading order details...</p>
-            )}
+        <div>
+            <h2>Order Details</h2>
+            <p>Order ID: {order._id}</p>
+            <p>Status: {order.status}</p>
+            <p>Total: {order.totalPrice}€</p>
+            <h3>Products:</h3>
+            <ul>
+                {order.products.map((item) => (
+                    <li key={item.product._id}>
+                        {item.product.name} - {item.quantity} x {item.product.price}€
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

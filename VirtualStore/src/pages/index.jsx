@@ -25,13 +25,13 @@ export default function Pages() {
                 </ProtectedRoute>
             } />
 
-            <Route path="/order-summary" element={
+            <Route path="/order-summary/:orderId" element={
                 <ProtectedRoute>
                     <OrderSummary />
                 </ProtectedRoute>
             } />
 
-            <Route path="/order-details" element={
+            <Route path="/order-details/:orderId" element={
                 <ProtectedRoute>
                     <OrderDetails />
                 </ProtectedRoute>
