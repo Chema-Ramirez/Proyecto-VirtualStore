@@ -4,8 +4,9 @@ import Register from "./register/Register"
 import Home from "./home/Home"
 import Checkout from "./checkout/Checkout"
 import OrderSummary from "./order-summary/OrderSummary"
-import OrderDetails from "./order-details/OrderDetails"
+import Profile from "./profile/Profile"
 import ProtectedRoute from "../components/ProtectedRoute"
+
 
 export default function Pages() {
     return (
@@ -31,11 +32,13 @@ export default function Pages() {
                 </ProtectedRoute>
             } />
 
-            <Route path="/order-details/:orderId" element={
+
+            <Route path="/profile/:userId" element={
                 <ProtectedRoute>
-                    <OrderDetails />
+                    <Profile />
                 </ProtectedRoute>
             } />
         </Routes>
+
     );
 }
