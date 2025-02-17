@@ -5,6 +5,7 @@ import Home from "./home/Home"
 import Checkout from "./checkout/Checkout"
 import OrderSummary from "./order-summary/OrderSummary"
 import Profile from "./profile/Profile"
+import Admin from "./admin/Admin"
 import ProtectedRoute from "../components/ProtectedRoute"
 
 
@@ -36,6 +37,12 @@ export default function Pages() {
             <Route path="/profile/:userId" element={
                 <ProtectedRoute>
                     <Profile />
+                </ProtectedRoute>
+            } />
+
+            <Route path="/admin" element={
+                <ProtectedRoute>
+                    <Admin />
                 </ProtectedRoute>
             } />
         </Routes>
