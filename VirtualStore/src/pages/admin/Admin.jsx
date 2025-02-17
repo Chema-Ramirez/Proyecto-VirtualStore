@@ -12,7 +12,7 @@ const Admin = () => {
             window.location.href = '/'
         }
 
-        // Fetch users
+
         fetch('http://localhost:3005/users', {
             method: 'GET',
             headers: {
@@ -22,12 +22,12 @@ const Admin = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data)) {
-                    setUsers(data)
+                    setUsers(data);
                 } else {
-                    setUsers([])
+                    setUsers([]);
                 }
             })
-            .catch((error) => console.log(error))
+            .catch((error) => console.log(error));
 
 
         fetch('http://localhost:3005/api/orders', {
@@ -40,9 +40,9 @@ const Admin = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data)) {
-                    setOrders(data)
+                    setOrders(data);
                 } else {
-                    setOrders([])
+                    setOrders([]);
                 }
             })
             .catch((error) => console.log(error));
@@ -60,16 +60,16 @@ const Admin = () => {
                 if (Array.isArray(data)) {
                     setProducts(data);
                 } else {
-                    setProducts([])
+                    setProducts([]);
                 }
             })
             .catch((error) => console.log(error))
-    }, [token])
+    }, [token]);
+
 
     const handleEditUser = (user) => {
         setEditUser({ name: user.name, email: user.email, id: user._id })
     };
-
 
 
     const handleDeleteUser = (userId) => {
@@ -87,7 +87,6 @@ const Admin = () => {
             })
             .catch((error) => console.log(error))
     }
-
 
 
     const handleUpdateUser = () => {
@@ -113,15 +112,19 @@ const Admin = () => {
                     alert(data.message)
                 } else {
                     alert('User updated successfully!')
-                    setUsers(users.map((user) => (user._id === editUser.id ? { ...user, ...data } : user)))
+                    setUsers(
+                        users.map((user) =>
+                            user._id === editUser.id ? { ...user, ...data } : user
+                        )
+                    );
                     setEditUser({ name: '', email: '', id: '' })
                 }
             })
             .catch((error) => {
                 console.error('Error updating user:', error)
                 alert('Error updating user.')
-            })
-    }
+            });
+    };
 
 
     return (
