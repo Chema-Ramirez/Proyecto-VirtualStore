@@ -8,6 +8,7 @@ const OrderSummary = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
+        console.log('Fetching order with ID:', orderId)
         const fetchOrder = async () => {
             try {
                 const response = await fetch(`http://localhost:3005/api/orders/${orderId}`)
@@ -23,10 +24,10 @@ const OrderSummary = () => {
             }
         };
 
-        fetchOrder();
-    }, [orderId]);
+        fetchOrder()
+    }, [orderId])
 
-    if (!order) return <p>Loading...</p>;
+    if (!order) return <p>Loading...</p>
 
     return (
         <div>
@@ -44,7 +45,7 @@ const OrderSummary = () => {
             </ul>
             <button onClick={() => navigate('/home')}>Back to Home</button>
         </div>
-    );
-};
+    )
+}
 
-export default OrderSummary;
+export default OrderSummary

@@ -1,0 +1,100 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.register-page {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("https://images.unsplash.com/photo-1595991209266-5ff5a3a2f008?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  background: rgba(22, 20, 20, 0.9);
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 600px;
+}
+
+h2 {
+  font-size: 45px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 18px;
+  color: white;
+  display: block;
+  margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  margin-top: 10px;
+  background: #137c2c;
+  color: white;
+}
+
+.register-btn:hover {
+  background: #01583e;
+}
+
+.login-link {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  text-decoration: none;
+  color: #ffffff;
+  background: #042e5c;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  background: #3078c5;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+}

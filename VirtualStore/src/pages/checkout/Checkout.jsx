@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
+import './Checkout.css'
 
 const Checkout = () => {
     const { authState } = useAuth()
@@ -14,23 +15,23 @@ const Checkout = () => {
         expirationDate: '',
         cvv: '',
         cardHolder: ''
-    });
+    })
 
     const handlePayment = async () => {
         if (!authState.user) {
-            setError('You must be logged in to complete the purchase');
-            return;
+            setError('You must be logged in to complete the purchase')
+            return
         }
 
         if (cart.length === 0) {
-            setError('Your cart is empty');
-            return;
+            setError('Your cart is empty')
+            return
         }
 
         const { cardNumber, expirationDate, cvv, cardHolder } = paymentData;
         if (!cardNumber || !expirationDate || !cvv || !cardHolder) {
-            setError('Please fill in all payment details');
-            return;
+            setError('Please fill in all payment details')
+            return
         }
 
         const orderData = {
@@ -60,7 +61,8 @@ const Checkout = () => {
                 alert('Order created successfully')
                 clearCart()
                 localStorage.removeItem('cart')
-                navigate(`/order-summary/${data._id}`)
+                console.log('Order ID:', data._id);
+                navigate('/home')
             } else {
                 setError(data.message || 'Failed to create order')
             }
@@ -81,14 +83,14 @@ const Checkout = () => {
     };
 
     return (
-        <div>
-            <h1>Checkout</h1>
-            {error && <p>{error}</p>}
+        <div className="checkout-container">
+            <h1 className="checkout-title">Checkout</h1>
+            {error && <p className="error-message">{error}</p>}
 
-            <div>
+            <div className="payment-form-container">
                 <h2>Enter your payment details</h2>
-                <form>
-                    <div>
+                <form className="payment-form">
+                    <div className="input-group">
                         <label>Card Number</label>
                         <input
                             type="text"
@@ -99,7 +101,7 @@ const Checkout = () => {
                         />
                     </div>
 
-                    <div>
+                    <div className="input-group">
                         <label>Expiration Date</label>
                         <input
                             type="month"
@@ -110,7 +112,7 @@ const Checkout = () => {
                         />
                     </div>
 
-                    <div>
+                    <div className="input-group">
                         <label>CVV</label>
                         <input
                             type="text"
@@ -121,7 +123,7 @@ const Checkout = () => {
                         />
                     </div>
 
-                    <div>
+                    <div className="input-group">
                         <label>Card Holder Name</label>
                         <input
                             type="text"
@@ -134,10 +136,12 @@ const Checkout = () => {
                 </form>
             </div>
 
-            <button onClick={handlePayment} disabled={loading}>
-                {loading ? 'Processing...' : 'Pay Now'}
-            </button>
-            <button onClick={() => navigate('/home')}>Back to Home</button>
+            <div className="checkout-buttons">
+                <button className="pay-now-btn" onClick={handlePayment} disabled={loading}>
+                    {loading ? 'Processing...' : 'Pay Now'}
+                </button>
+                <button className="back-home-btn" onClick={() => navigate('/home')}>Back to Home</button>
+            </div>
         </div>
     )
 }

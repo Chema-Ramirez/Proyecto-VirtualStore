@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useCart } from '../../context/CartContext'
-import Cart from '../../components/cart/Cart'
+import './Products.css'
 
 const Products = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { cart, addToCart } = useCart()
+    const { cart, addToCart } = useCart();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -23,31 +23,39 @@ const Products = () => {
             }
         };
 
-        fetchProducts()
-    }, [])
+        fetchProducts();
+    }, []);
 
     if (loading) {
-        return <div>Loading...</div>
+        return <div>Loading...</div>;
     }
 
     return (
-        <div className="row mt-5">
+        <div className="products-container">
             {products.length > 0 ? (
                 products.map((product) => {
-                    const isInCart = cart.some(item => item._id === product._id)
-
+                    const isInCart = cart.some(item => item._id === product._id);
                     return (
-                        <Cart
-                            key={product._id}
-                            product={product}
-                            addToCart={addToCart}
-                            cart={cart}
-                            isInCart={isInCart}
-                        />
-                    )
+                        <div key={product._id} className="product-card">
+                            <img
+                                src={product.image}
+                                alt={product.name}
+                            />
+                            <div className="details">
+                                <p>{product.name}</p>
+                                <span>{product.price.toFixed(2)}€</span>
+                                <button
+                                    onClick={() => addToCart(product)}
+                                    disabled={isInCart}
+                                >
+                                    {isInCart ? 'In Cart' : 'Add to Cart'}
+                                </button>
+                            </div>
+                        </div>
+                    );
                 })
             ) : (
-                <p>No products available</p>
+                <p className="no-products-message">No products available</p>
             )}
         </div>
     )

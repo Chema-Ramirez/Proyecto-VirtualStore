@@ -1,0 +1,131 @@
+/* Fondo de la página */
+.checkout-container {
+  background-image: url("https://images.unsplash.com/photo-1595991209266-711c557ac7c4?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-size: cover;
+  background-position: center;
+  height: 96vh; /* Asegura que la página ocupe toda la altura */
+  width: 220vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido */
+  justify-content: flex-start;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+/* Título de la página */
+.checkout-title {
+  margin-top: 20px;
+  font-size: 50px;
+  color: #000000;
+  text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.7);
+}
+
+/* Mensajes de error o éxito */
+.error-message {
+  margin: 10px 0;
+  font-size: 16px;
+  color: rgb(255, 0, 0);
+}
+
+/* Formulario de pago */
+.payment-form-container {
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro y transparente */
+  color: #fff;
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px; /* Asegura que no ocupe más de 800px de ancho */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.payment-form-container h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #137c2c; /* Verde */
+}
+
+/* Grupo de inputs */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  font-size: 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+}
+
+/* Botones de checkout */
+.checkout-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+/* Botón de pago */
+button.pay-now-btn {
+  background-color: #137c2c;
+  color: white;
+}
+
+button.pay-now-btn:hover {
+  background-color: #01583e;
+}
+
+button.pay-now-btn:disabled {
+  background-color: #b0b0b0;
+  cursor: not-allowed;
+}
+
+/* Botón de regresar a inicio */
+button.back-home-btn {
+  background-color: #1976d2;
+  color: white;
+}
+
+button.back-home-btn:hover {
+  background-color: #1565c0;
+}
+
+/* Estilos de responsividad */
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 10px;
+  }
+
+  .checkout-title {
+    font-size: 30px;
+  }
+
+  .payment-form-container {
+    padding: 15px;
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+  }
+}

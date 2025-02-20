@@ -1,0 +1,123 @@
+.profile-background {
+  background-image: url("https://images.unsplash.com/photo-1595991209266-711c557ac7c4?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-size: cover;
+  background-position: center center;
+  height: 5000vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  color: #000000;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  width: 100vw;
+  background-attachment: fixed;
+}
+
+h2 {
+  margin-top: 20px;
+  font-size: 50px;
+  color: #000000;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+div {
+  margin: 10px 0;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+}
+
+.profile-section {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.profile-section h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #137c2c;
+}
+
+.profile-section form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+}
+
+button {
+  margin-top: 10px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+button.update {
+  background-color: #137c2c;
+  color: white;
+}
+
+button.update:hover {
+  background-color: #01583e;
+}
+
+button.delete {
+  background-color: #e53935;
+  color: white;
+}
+
+button.delete:hover {
+  background-color: #c62828;
+}
+
+button.back-home {
+  background-color: #1976d2;
+  color: white;
+}
+
+button.back-home:hover {
+  background-color: #1565c0;
+}
+
+.order-item {
+  background-color: #fff;
+  color: #333;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-item h4 {
+  font-size: 20px;
+}
+
+.order-item p {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .profile-background {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  .profile-section {
+    padding: 15px;
+    width: 100%;
+  }
+}

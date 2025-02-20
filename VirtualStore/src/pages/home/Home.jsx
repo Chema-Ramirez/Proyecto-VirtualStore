@@ -2,19 +2,16 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/layout/Header'
 import { useCart } from '../../context/CartContext'
-import { useAuth } from '../../context/AuthContext'
 import Products from '../products/Products'
 
 const Home = () => {
     const { cart, setCart, addToCart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart } = useCart()
-    const { authState, logout } = useAuth()
+
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
 
-
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'))
-
         if (!user || !user.token) {
             navigate('/')
         } else {
@@ -39,15 +36,9 @@ const Home = () => {
         return <div>Loading...</div>
     }
 
-    const name = authState.user ? authState.user.name : 'User'
-
-    const handleLogout = () => {
-        logout()
-        navigate('/')
-    }
 
     return (
-        <>
+        <div className="main-container">
             <Header
                 cart={cart}
                 removeFromCart={removeFromCart}
@@ -56,41 +47,22 @@ const Home = () => {
                 clearCart={clearCart}
             />
 
-            <div className="text-center mt-3">
-                <button onClick={handleLogout} className="btn btn-danger">
-                    Logout
-                </button>
-            </div>
+            <main>
+                <h1>Welcome to VirtualStore!</h1>
 
-            <main className="container-xl mt-5">
-                <div className="text-center mt-3">
-                    <p>Welcome, {name}!</p>
+                <div className="welcome-section">
+                    <button onClick={() => navigate("/profile/:userId")}>View My Profile</button>
                 </div>
 
-                <h2 className="text-center">Our collection</h2>
+                <h2>Our Collection</h2>
 
-
-                <div className="text-center mt-4">
-                    <button onClick={() => navigate("/profile/:userId")} className="btn btn-primary">
-                        View My Profile
-                    </button>
-                </div>
-
-
-                <div className="mt-5">
-                    <Products
-                        addToCart={addToCart}
-                        cart={cart}
-                    />
-                </div>
+                <Products addToCart={addToCart} cart={cart} />
             </main>
 
-            <footer className="bg-dark mt-5 py-5">
-                <div className="container-xl">
-                    <p className="text-white text-center fs-4 mt-4 m-md-0">VirtualStore - All rights reserved</p>
-                </div>
+            <footer>
+                <p>VirtualStore - All rights reserved</p>
             </footer>
-        </>
+        </div>
     )
 }
 

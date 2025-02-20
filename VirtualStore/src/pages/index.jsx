@@ -9,6 +9,7 @@ import Admin from "./admin/Admin"
 import ProtectedRoute from "../components/ProtectedRoute"
 
 
+
 export default function Pages() {
     return (
         <Routes>
@@ -40,12 +41,12 @@ export default function Pages() {
                 </ProtectedRoute>
             } />
 
+
             <Route path="/admin" element={
                 <ProtectedRoute>
                     <Admin />
                 </ProtectedRoute>
             } />
         </Routes>
-
     );
 }

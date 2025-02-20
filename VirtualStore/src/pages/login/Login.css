@@ -1,0 +1,134 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.login-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("https://images.unsplash.com/photo-1595991209266-5ff5a3a2f008?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  background: rgba(22, 20, 20, 0.9);
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 600px;
+}
+
+.login-title {
+  font-size: 45px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.login-button.login {
+  background: #137c2c;
+  color: white;
+}
+
+.login-button.login:hover {
+  background: #01583e;
+}
+
+.login-button.register {
+  background: #042e5c;
+  color: white;
+}
+
+.login-button.register:hover {
+  background: #3078c5;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+.login-container img {
+  width: 250px;
+  height: auto;
+  border-radius: 40%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.login-container img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+}
+
+.login-box label {
+  font-size: 18px;
+  color: white;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.login-box input[type="email"],
+.login-box input[type="password"],
+.login-box .login-button {
+  width: 100%;
+}
+
+.login-box .login-button {
+  display: block;
+}

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import './Register.css'
 
 const Register = () => {
     const [name, setName] = useState("")
@@ -9,7 +10,7 @@ const Register = () => {
     const navigate = useNavigate()
 
     const handleRegister = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         try {
             const response = await fetch("http://localhost:3005/auth/register", {
@@ -17,23 +18,24 @@ const Register = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ name, email, password })
-            })
+                body: JSON.stringify({ name, email, password }),
+            });
 
-            const data = await response.json()
+            const data = await response.json();
             if (response.ok) {
-                navigate("/")
+                navigate("/");
             } else {
                 setError(data.message || "Something went wrong, please try again.")
             }
         } catch (error) {
+            console.log(error)
             setError("Error connecting to the server.")
         }
     }
 
     return (
-        <div>
-            <form onSubmit={handleRegister}>
+        <div className="register-page">
+            <form onSubmit={handleRegister} className="form-container">
                 <h2>Register a New Account</h2>
                 <div>
                     <label htmlFor="name">Name:</label>
@@ -65,15 +67,12 @@ const Register = () => {
                         required
                     />
                 </div>
-                {error && <p style={{ color: "red" }}>{error}</p>}
-                <button type="submit">Register</button>
+                {error && <p className="error-message">{error}</p>}
+                <button type="submit" className="register-btn">Register</button>
+                <button type="button" onClick={() => navigate("/")} className="login-link">Already have an account? Login</button>
             </form>
-
-            <div>
-                <button onClick={() => navigate("/")}>Already have an account? Login</button>
-            </div>
         </div>
-    );
-};
+    )
+}
 
 export default Register;
