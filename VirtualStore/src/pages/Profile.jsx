@@ -66,15 +66,15 @@ const Profile = () => {
             );
 
             if (!response.ok) {
-                throw new Error('Error loading orders')
+                throw new Error('Error loading orders');
             }
-            const data = await response.json()
-            setOrders(data)
+            const data = await response.json();
+            setOrders(data);
         } catch (err) {
-            console.error(err)
-            setError('Error loading orders')
+            console.error(err);
+            setError('Error loading orders');
         }
-    }
+    };
 
     useEffect(() => {
         fetchUserData()
@@ -286,4 +286,4 @@ const Profile = () => {
     )
 }
 
-export default Profile;
+export default Profile
