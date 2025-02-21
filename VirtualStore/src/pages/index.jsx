@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom"
-import Login from "./login/Login"
-import Register from "./register/Register"
-import Home from "./home/Home"
-import Checkout from "./checkout/Checkout"
-import OrderSummary from "./order-summary/OrderSummary"
-import Profile from "./profile/Profile"
-import Admin from "./admin/Admin"
+import Login from "./Login"
+import Register from "./Register"
+import Home from "./Home"
+import Checkout from "./Checkout"
+import OrderSummary from "./OrderSummary"
+import Profile from "./Profile"
+import Admin from "./Admin"
 import ProtectedRoute from "../components/ProtectedRoute"
 
 
@@ -28,7 +28,7 @@ export default function Pages() {
                 </ProtectedRoute>
             } />
 
-            <Route path="/order-summary/:orderId" element={
+            <Route path="/user/:orderId" element={
                 <ProtectedRoute>
                     <OrderSummary />
                 </ProtectedRoute>
